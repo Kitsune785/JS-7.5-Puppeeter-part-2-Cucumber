@@ -2,6 +2,7 @@ const { clickElement, getText } = require("./lib/commands");
 const puppeteer = require('puppeteer');
 
 let page;
+let btnSelector = '.acceptin-button';
 
 beforeEach(async () => {
 	page = await browser.newPage();
@@ -23,10 +24,10 @@ describe('Ticket booking tests', () => {
 		await clickElement(page, 'a.movie-seances__time');
 		await clickElement(page, '.buying-scheme__row > span:nth-child(5)');
 		await clickElement(page, 'button.acceptin-button');
-        const btnSelector = '.acceptin-button'; await page.waitForSelector(btnSelector, {
+        await page.waitForSelector(btnSelector, {
             visible: true,
         });
-        const actual = await page.$eval(btnSelector, link => link.textContent);
+		const actual = await getText(page, ".acceptin-button");
         expect(actual).toContain('Получить код бронирования');
 	});
 
@@ -36,10 +37,10 @@ describe('Ticket booking tests', () => {
 		await clickElement(page, '.buying-scheme__row > span:nth-child(6)');
 		await clickElement(page, '.buying-scheme__row > span:nth-child(7)');
 		await clickElement(page, 'button.acceptin-button');
-        const btnSelector = '.acceptin-button'; await page.waitForSelector(btnSelector, {
-            visible: true,
-        });
-        const actual = await page.$eval(btnSelector, link => link.textContent);
+		await page.waitForSelector(btnSelector, {
+			    visible: true,
+			});
+		const actual = await getText(page, ".acceptin-button");
         expect(actual).toContain('Получить код бронирования');
 	});
 
@@ -47,7 +48,6 @@ describe('Ticket booking tests', () => {
 		await clickElement(page, '.page-nav > a:nth-child(5)');
 		await clickElement(page, 'a.movie-seances__time');
 		await clickElement(page, '.buying-scheme__row > span:nth-child(1)');
-        expect(String(await page.$eval("button", (button) => {
-            return button.disabled;}))).toContain("true");
+		expect(await page.$eval("button", (button) => { return button.disabled;})).toBe(true);
 	});
 });
