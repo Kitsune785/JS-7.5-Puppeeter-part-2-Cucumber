@@ -25,25 +25,25 @@ Given("user is on {string} page", async function (string) {
   });
 });
 
-When("user choose day", async function () {
-  await clickElement(this.page, ".page-nav > a:nth-child(5)");
+When('user choose day {int}', async function (int) {
+  const daySelector = 'body > nav > a:nth-child(' + int + ')';
+  await this.page.click(daySelector);
 });
 
 When("user choose time", async function () {
   await clickElement(this.page, "a.movie-seances__time");
 });
 
-When("user select 1 row 5 seat", async function () {
-  await clickElement(this.page, ".buying-scheme__row > span:nth-child(5)");
+When('user select row {int} and seat {int}', async function (int, int2) {
+    const seatSelector =
+        'body > main > section > div.buying-scheme > div.buying-scheme__wrapper > div:nth-child(' +
+        int +
+        ') > span:nth-child(' +
+        int2 +
+        ')';
+    await this.page.waitForSelector(seatSelector);
+    await this.page.click(seatSelector);
 });
-
-When("user select 1 row 6 seat", async function () {
-  await clickElement(this.page, ".buying-scheme__row > span:nth-child(6)");
-});
-
-When("user select 1 row 7 seat", async function () {
-  await clickElement(this.page, ".buying-scheme__row > span:nth-child(7)");
-  });
 
 When("user select the booked place", async function () {
   await clickElement(this.page, ".buying-scheme__row > span:nth-child(1)");
